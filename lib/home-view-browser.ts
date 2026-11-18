@@ -14,7 +14,7 @@ export function trackHomeView(path:string,force=false):Promise<VisitorResult>{
     for(let attempt=0;attempt<3;attempt++){
       let response:Response|undefined;
       try{
-        response=await statsFetch('/api/home-views',{method:'POST',credentials:'same-origin',cache:'no-store',headers:{'Content-Type':'application/json'},body:JSON.stringify({eventId:view.eventId,pagePath:path})});
+        response=await statsFetch('/api/home-views',{method:'POST',credentials:'same-origin',cache:'no-store',headers:{'Content-Type':'application/json'},body:JSON.stringify({eventId:view.eventId,openedAt:view.openedAt,pagePath:path})});
         if(response.ok)return await response.json() as VisitorResult;
       }catch(error){if(attempt===2)throw error;}
       if(response&&response.status<500&&response.status!==429)throw new Error('Homepage view rejected');

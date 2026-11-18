@@ -1,0 +1,20 @@
+name = "donnie-notes-counter"
+main = "index.ts"
+compatibility_date = "2026-11-18"
+workers_dev = true
+
+[vars]
+PAGES_URL = "https://your-account.github.io/donnie-notes"
+TRACKING_ACTIVE = "false"
+REPORTS_ACTIVE = "false"
+SYNC_ACTIVE = "false"
+# NOTION_REPORT_SOURCE_ID, GITHUB_REPOSITORY, GITHUB_APP_ID and
+# GITHUB_INSTALLATION_ID are operator settings. Store tokens and PEMs as Secrets.
+
+[[d1_databases]]
+binding = "DB"
+database_name = "donnie-notes-counter"
+database_id = "<ID of the separate Free D1 database>"
+
+[triggers]
+crons = ["23 * * * *", "17 23 * * *"]

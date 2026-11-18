@@ -1,10 +1,10 @@
 import {statsFetch} from './static-path.ts';
 import type {VisitorResult} from './visitor-counter.ts';
 
-export type ArticleViewAttempt={articleId:string;eventId:string;pending?:Promise<VisitorResult>};
+export type ArticleViewAttempt={articleId:string;eventId:string;openedAt:number;pending?:Promise<VisitorResult>};
 let activeView:ArticleViewAttempt|undefined;
 export function articleViewAttempt(articleId:string,createId:()=>string,previous:ArticleViewAttempt|undefined,force=false):ArticleViewAttempt{
-  return !force&&previous?.articleId===articleId?previous:{articleId,eventId:createId()};
+  return !force&&previous?.articleId===articleId?previous:{articleId,eventId:createId(),openedAt:Date.now()};
 }
 export function leaveArticleView(){activeView=undefined;}
 export function trackArticleView(articleId:string,force=false):Promise<VisitorResult>{
@@ -13,7 +13,7 @@ export function trackArticleView(articleId:string,force=false):Promise<VisitorRe
     for(let attempt=0;attempt<3;attempt++){
       let response:Response|undefined;
       try{
-        response=await statsFetch('/api/article-views',{method:'POST',credentials:'same-origin',cache:'no-store',headers:{'Content-Type':'application/json'},body:JSON.stringify({articleId:view.articleId,eventId:view.eventId})});
+        response=await statsFetch('/api/article-views',{method:'POST',credentials:'same-origin',cache:'no-store',headers:{'Content-Type':'application/json'},body:JSON.stringify({articleId:view.articleId,eventId:view.eventId,openedAt:view.openedAt})});
         if(response.ok)return await response.json() as VisitorResult;
       }catch(error){if(attempt===2)throw error;}
       if(response&&response.status<500&&response.status!==429)throw new Error('Article view rejected');

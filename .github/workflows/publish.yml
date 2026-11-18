@@ -9,8 +9,11 @@ on:
         type: boolean
         required: true
         default: false
-  schedule:
-    - cron: '23 * * * *'
+  workflow_call:
+    inputs:
+      publish:
+        type: boolean
+        required: true
 
 permissions:
   contents: read
@@ -21,7 +24,7 @@ concurrency:
 
 jobs:
   build:
-    if: github.ref == 'refs/heads/main' && (github.event_name != 'schedule' || vars.PAGES_AUTOMATIC == 'true')
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     timeout-minutes: 12
     outputs:
@@ -54,17 +57,17 @@ jobs:
           SITE_URL: ${{ steps.pages.outputs.base_url }}
           ANALYTICS_ORIGIN: ${{ vars.ANALYTICS_ORIGIN }}
           ALLOW_EMPTY_BLOG: ${{ vars.ALLOW_EMPTY_BLOG }}
-          SKIP_UNCHANGED: ${{ github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.publish) }}
+          SKIP_UNCHANGED: ${{ inputs.publish == true }}
         run: pnpm build
       - uses: actions/upload-pages-artifact@v4
-        if: steps.build.outputs.changed == 'true' && (github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.publish))
+        if: steps.build.outputs.changed == 'true' && (inputs.publish == true)
         with:
           path: dist
           retention-days: 1
 
   publish:
     needs: build
-    if: needs.build.outputs.changed == 'true' && (github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.publish))
+    if: needs.build.outputs.changed == 'true' && (inputs.publish == true)
     runs-on: ubuntu-latest
     timeout-minutes: 6
     permissions:

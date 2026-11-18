@@ -116,7 +116,7 @@ async function main(){
  await mkdir(cache,{recursive:true});await writeFile(cache+'/snapshot.json',JSON.stringify(snapshot));
  await mkdir('public/data',{recursive:true});await writeFile('public/data/feed.json',JSON.stringify({articles:snapshot.articles,mode:snapshot.demo?'demo':'live'}));
  const report=assets.report(),metrics={visitors:flag(snapshot.settings,'show.visitorCounter'),home:flag(snapshot.settings,'show.homeViews'),articles:flag(snapshot.settings,'show.articleViews')};
- await writeFile(cache+'/publish-manifest.json',JSON.stringify({version:snapshot.contentVersion,articleIds:snapshot.articles.map(x=>x.id),flags:metrics}));
+ await writeFile('public/data/analytics-manifest.json',JSON.stringify({version:snapshot.contentVersion,articleIds:snapshot.articles.map(x=>x.id),flags:metrics}));
  console.log('Validated '+snapshot.articles.length+' '+(snapshot.demo?'local demo':'published')+' articles and '+report.files+' permanent media files ('+Math.ceil(report.bytes/1024)+' KiB).');
 }
 try{await main();}catch(error){

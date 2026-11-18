@@ -31,7 +31,8 @@
     "src",
     "lib",
     "components",
-    "vite.config.ts"
+    "vite.config.ts",
+    "worker"
   ],
   "exclude": [
     "node_modules",
