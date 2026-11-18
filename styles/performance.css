@@ -1,0 +1,37 @@
+/* Measure only on selection/resize, never on wheel or scroll. */
+.selection-track{isolation:isolate}.selection-track:not(.mobile-nav){position:relative}
+.selection-track>.selection-indicator{position:absolute;left:0;top:0;z-index:0;pointer-events:none;border-radius:999px;background:var(--paper);box-shadow:0 2px 7px #08080810;opacity:0;transition:transform 340ms cubic-bezier(.22,.8,.2,1),width 280ms cubic-bezier(.22,.8,.2,1),height 280ms cubic-bezier(.22,.8,.2,1),opacity 140ms}
+.selection-track[data-selection-ready=true]>.selection-indicator{opacity:1}
+.selection-track>:not(.selection-indicator){position:relative;z-index:1}
+.category-tabs.selection-track button,.archive-categories.selection-track button{transition:color 180ms,transform 180ms}
+.category-tabs.selection-track button.active,.archive-categories.selection-track button[aria-pressed=true]{background:transparent;box-shadow:none;color:var(--text)}
+.selection-track[data-selection-ready=false] [data-selection-active=true]{background:var(--paper)}
+.nav-links.selection-track>.selection-indicator,.mobile-nav.selection-track>.selection-indicator{background:var(--soft);box-shadow:none}
+.nav-links.selection-track a.active,.mobile-nav.selection-track a.active,.mobile-nav.selection-track .mobile-search-trigger[aria-expanded=true]{background:transparent}
+.nav-links.selection-track a:hover,.mobile-nav.selection-track a:hover,.mobile-nav.selection-track .mobile-search-trigger:hover{background:transparent}
+.nav-links.selection-track a{transition:color 160ms,transform 180ms}
+.nav-links.selection-track a:active,.mobile-nav.selection-track a:active,.mobile-nav.selection-track .mobile-search-trigger:active{transform:scale(.91)}
+.mobile-nav.selection-track [data-selection-active=true]{color:var(--text);font-weight:700}
+.mobile-nav.selection-track [data-selection-active=true]>svg{animation:nav-symbol 380ms cubic-bezier(.18,.75,.25,1)}
+.mobile-nav.selection-track a>svg,.mobile-nav.selection-track .mobile-search-trigger>svg{transition:transform 240ms}
+@keyframes nav-symbol{0%{transform:translateY(2px) scale(.85)}55%{transform:translateY(-3px) scale(1.1)}100%{transform:none}}
+.route-content:has(.journal-screen),.journal-screen .filter-content{animation:none}
+.journal-screen{animation:journal-enter 200ms cubic-bezier(.2,.75,.25,1)}
+@keyframes journal-enter{from{opacity:.65}to{opacity:1}}
+main:focus{outline:none}
+/* A static gray material replaces repeated live blur over moving photographs. */
+:root[data-glass=on] :is(.header-inner,.mobile-nav){background:color-mix(in srgb,var(--bg) 94%,transparent);background-image:linear-gradient(150deg,color-mix(in srgb,var(--paper) 45%,transparent),transparent 70%);-webkit-backdrop-filter:none;backdrop-filter:none;box-shadow:0 5px 18px #0808080a,inset 0 1px 0 color-mix(in srgb,var(--paper) 65%,transparent)}
+.header-inner,.mobile-nav{backface-visibility:visible;-webkit-backface-visibility:visible}
+body{text-rendering:auto}
+.post-card{content-visibility:auto;contain-intrinsic-block-size:auto 440px}
+.featured-card{content-visibility:auto;contain-intrinsic-block-size:auto 380px}
+.post-card,.featured-card,.post-card:hover,.featured-card:hover{box-shadow:none}
+/* Same long cover fade, using a static surface overlay instead of alpha masks. */
+.archive-page .archive-item{--archive-surface:var(--paper)}
+.archive-page .archive-item:hover{--archive-surface:var(--soft)}
+.archive-item-cover{-webkit-mask-image:none;mask-image:none}
+.archive-item-cover::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent 0%,transparent 10%,color-mix(in srgb,var(--archive-surface) 15%,transparent) 23%,color-mix(in srgb,var(--archive-surface) 55%,transparent) 40%,color-mix(in srgb,var(--archive-surface) 86%,transparent) 57%,color-mix(in srgb,var(--archive-surface) 96.5%,transparent) 78%,var(--archive-surface) 100%)}
+@media(max-width:640px){.post-card{contain-intrinsic-block-size:auto 500px}}
+@media(prefers-reduced-motion:reduce){.selection-track>.selection-indicator,.journal-screen,.mobile-nav.selection-track [data-selection-active=true]>svg{transition:none;animation:none}.nav-links.selection-track a:active,.mobile-nav.selection-track a:active,.mobile-nav.selection-track .mobile-search-trigger:active{transform:none}}
+@media(prefers-reduced-transparency:reduce),(prefers-contrast:more){:root[data-glass=on] :is(.header-inner,.mobile-nav){background:var(--paper)}}
+@media print{.post-card,.featured-card{content-visibility:visible;contain:none}.journal-screen{animation:none}}

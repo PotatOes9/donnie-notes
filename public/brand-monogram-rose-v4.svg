@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+  <view id="donnie-monogram-dark" viewBox="64 0 64 64"/>
+  <text x="11" y="47" font-family="Georgia,Times New Roman,serif" font-weight="700" font-size="47" fill="#333333">d</text>
+  <circle cx="50" cy="47" r="4" fill="#fc6c85"/>
+  <g transform="translate(64 0)">
+    <text x="11" y="47" font-family="Georgia,Times New Roman,serif" font-weight="700" font-size="47" fill="#e6e6e6">d</text>
+    <circle cx="50" cy="47" r="4" fill="#fc6c85"/>
+  </g>
+</svg>

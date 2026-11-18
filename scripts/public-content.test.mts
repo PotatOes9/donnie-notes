@@ -1,0 +1,7 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {escapeJson,privateAddress,publicBlock,validatePublicSnapshot} from './public-content.ts';
+test('Inline snapshots cannot close their JSON script tag',()=>{assert.ok(!escapeJson({text:'</script><script>oops</script>'}).includes('<'));});
+test('Uploaded files cannot target private networks',()=>{for(const ip of ['127.0.0.1','10.0.0.1','169.254.169.254','192.168.1.1','172.31.2.1','::1','fd00::1','::ffff:127.0.0.1'])assert.ok(privateAddress(ip),ip);assert.equal(privateAddress('1.1.1.1'),false);});
+test('Public blocks omit Notion authors, raw file URLs and private child content',()=>{const block=publicBlock({id:'b',type:'image',created_by:{id:'private'},image:{type:'file',file:{url:'https://temporary/?X-Amz-Signature=abc'},caption:[]},staticSrc:'/media/safe.jpg',children:[]});assert.equal(block.staticSrc,'/media/safe.jpg');assert.equal(block.created_by,undefined);assert.equal(block.image.file,undefined);assert.deepEqual(publicBlock({id:'p',type:'child_page',child_page:{title:'private'},children:[{id:'secret'}]}).children,[]);});
+test('Secret and signed-URL leaks fail the entire publication',()=>{for(const sample of [{token:'hidden'},{img:'https://s3/?X-Amz-Signature=secret'},{browser_hash:'private'}])assert.throws(()=>validatePublicSnapshot(sample));assert.doesNotThrow(()=>validatePublicSnapshot({article:{id:'public',title:'Hello'},staticSrc:'/media/a.jpg'}));});

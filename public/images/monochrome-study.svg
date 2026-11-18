@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="1000" viewBox="0 0 1000 1000">
+<defs>
+ <linearGradient id="backdrop" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#242424"/><stop offset=".7" stop-color="#111111"/><stop offset="1" stop-color="#080808"/></linearGradient>
+ <linearGradient id="front" x1="0" y1="0" x2=".9" y2="1"><stop stop-color="#f3f3f3"/><stop offset=".52" stop-color="#c4c4c4"/><stop offset="1" stop-color="#747474"/></linearGradient>
+ <linearGradient id="side" x1="0" y1=".2" x2="1" y2=".7"><stop stop-color="#919191"/><stop offset="1" stop-color="#303030"/></linearGradient>
+ <linearGradient id="top" x2="0" y2="1"><stop stop-color="#f2f2f2"/><stop offset="1" stop-color="#c5c5c5"/></linearGradient>
+ <radialGradient id="halo"><stop stop-color="#666666" stop-opacity=".34"/><stop offset="1" stop-color="#161616" stop-opacity="0"/></radialGradient>
+ <filter id="blur"><feGaussianBlur stdDeviation="19"/></filter>
+ <pattern id="grain" width="5" height="5" patternUnits="userSpaceOnUse"><circle cx=".8" cy="2" r=".55" fill="#f2f2f2" opacity=".026"/></pattern>
+</defs>
+<path fill="url(#backdrop)" d="M0 0h1000v1000H0z"/>
+<circle cx="477" cy="436" r="440" fill="url(#halo)"/>
+<path d="M105 735L515 939 916 731M110 844L517 641 921 844M515 641v298" fill="none" stroke="#f2f2f2" stroke-opacity=".065" stroke-width="1"/>
+<ellipse cx="516" cy="746" rx="238" ry="48" fill="#000000" opacity=".62" filter="url(#blur)"/>
+<g>
+ <path d="M290 323L487 225 696 330 499 428Z" fill="url(#top)"/>
+ <path d="M290 323V618L499 723V428Z" fill="url(#front)"/>
+ <path d="M499 428L696 330V625L499 723Z" fill="url(#side)"/>
+ <path d="M361 358L487 295 624 364 499 427Z" fill="#303030"/>
+ <path d="M361 358V550L499 619V427Z" fill="#202020"/>
+ <path d="M499 427L624 364V556L499 619Z" fill="#484848"/>
+ <path d="M361 550L487 487 624 556 499 619Z" fill="#7e7e7e"/>
+ <path d="M290 323L361 358V550L290 618Z" fill="url(#front)"/>
+ <path d="M290 618L361 550 499 619 499 723Z" fill="#a5a5a5"/>
+ <path d="M499 619L624 556 696 625 499 723Z" fill="#646464"/>
+ <path d="M624 364L696 330V625L624 556Z" fill="url(#side)"/>
+ <path d="M290 323L487 225 696 330M290 323L499 428 696 330M499 428v295" fill="none" stroke="#f2f2f2" stroke-opacity=".25" stroke-width="1.5"/>
+</g>
+<path d="M79 80h27M92.5 66.5v27M894 920h27M907.5 906.5v27" stroke="#b3b3b3" stroke-width="1"/>
+<path d="M80 878h160M760 123h160" stroke="#656565" stroke-width="1"/>
+<circle cx="915" cy="83" r="3" fill="#d4d4d4"/>
+<path fill="url(#grain)" d="M0 0h1000v1000H0z"/>
+</svg>

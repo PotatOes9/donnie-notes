@@ -1,0 +1,14 @@
+node_modules/
+dist/
+.render/
+.cache/
+.wrangler/
+public/data/
+public/media/
+public/fonts/*.woff2
+.env
+.env.*
+!.env.example
+*.tar.gz
+*.zip
+*.log

@@ -1,0 +1,71 @@
+/* Short, composited feedback. No scroll listeners, parallax or animated blur. */
+:root{--motion-fast:140ms;--motion-normal:200ms;--motion-ease:cubic-bezier(.2,.75,.25,1)}
+body{transition:background-color var(--motion-normal),color var(--motion-normal)}
+:root :is(a,button,summary,[role=button],[role=tab],[role=menuitemradio]){transition:color var(--motion-fast),background-color var(--motion-fast),border-color var(--motion-fast),opacity var(--motion-fast),transform var(--motion-normal) var(--motion-ease),box-shadow var(--motion-fast);-webkit-tap-highlight-color:transparent}
+:where(input,textarea,select){transition:border-color var(--motion-fast),background-color var(--motion-fast),box-shadow var(--motion-fast)}
+:where(button,summary,[role=button]):active:not(:disabled){opacity:.78}
+:where(.nav-links a,.mobile-nav a,.mobile-search-trigger,.language-switcher,.category-tabs button,.archive-categories button,.archive-year-jumps a,.notion-tab-list button,.share-tools button,.search-retry,.connection-tabs button,.translation-notice-close):active{transform:scale(.97)}
+a:not(:has(img)):active{opacity:.76}
+input:focus-visible,textarea:focus-visible{box-shadow:0 0 0 3px color-mix(in srgb,var(--text) 9%,transparent)}
+.theme-toggle svg{animation:icon-arrive var(--motion-normal) var(--motion-ease)}
+.route-content{animation:route-arrive 180ms var(--motion-ease)}
+.filter-content{animation:content-arrive 160ms var(--motion-ease) both}
+.notion-tab-panel:not([hidden]),[data-notion-tab-panel]:not([hidden]),.visitor-counter-info[open]>p{animation:content-arrive 160ms var(--motion-ease) both}
+.reading-progress{width:100%;transform:scaleX(0);transform-origin:0 50%;transition:none;pointer-events:none}
+.translation-notice-slot{display:grid;grid-template-rows:1fr;opacity:1;transition:grid-template-rows 180ms var(--motion-ease),opacity 140ms}
+.translation-notice-slot[data-closing=true]{grid-template-rows:0fr;opacity:0}
+.translation-notice-clip{min-height:0;overflow:hidden}
+.post-card,.featured-card{contain:layout paint}
+.archive-page .archive-item:hover{transform:none}
+.archive-item-arrow,.read-link>svg,.archive-link>svg,.back-link>svg,.next-reading strong>svg{transition:transform var(--motion-normal) var(--motion-ease)}
+@media(hover:hover) and (pointer:fine){
+ .featured-card:hover .read-link>svg,.post-card:hover .read-link>svg,.archive-item:hover .archive-item-arrow,.next-reading:hover strong>svg{transform:translate(2px,-2px)}
+ .archive-link:hover>svg{transform:translateX(3px)}.back-link:hover>svg{transform:translateX(-3px)}
+ .wordmark:hover{opacity:.8}
+}
+@media(hover:none),(pointer:coarse){
+ .featured-card:hover,.post-card:hover,.archive-item:hover{transform:none;box-shadow:none}
+ .post-card:hover .article-cover img,.featured-card:hover .article-cover img,.archive-page .archive-item:hover .archive-item-cover img{transform:none}
+}
+
+/* A little more transparency, with a smaller and cheaper live blur. */
+@supports ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
+ :root[data-glass=on] .glass-surface{background:color-mix(in srgb,var(--bg) 72%,transparent);-webkit-backdrop-filter:blur(min(var(--glass-blur),18px)) saturate(1.12);backdrop-filter:blur(min(var(--glass-blur),18px)) saturate(1.12)}
+ :root[data-glass=on] .language-menu{background:color-mix(in srgb,var(--paper) 88%,transparent)}
+}
+.header-inner,.mobile-nav{isolation:isolate;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.header-inner{transform:translateZ(0)}
+@media(max-width:640px){
+ :root[data-glass=on] :is(.header-inner,.mobile-nav){-webkit-backdrop-filter:blur(min(var(--glass-blur),14px)) saturate(1.1);backdrop-filter:blur(min(var(--glass-blur),14px)) saturate(1.1)}
+ .mobile-nav{transform:translateX(-50%) translateZ(0)}
+}
+:root[data-search-open=true] :is(.header-inner,.mobile-nav){-webkit-backdrop-filter:none;backdrop-filter:none}
+
+/* Native modal focus/escape handling stays intact, including during dismissal. */
+.site-search,.image-dialog{opacity:0;transform:translateY(7px) scale(.985);transition:opacity 160ms var(--motion-ease),transform 180ms var(--motion-ease),display 180ms allow-discrete,overlay 180ms allow-discrete}
+.site-search[open],.image-dialog[open]{opacity:1;transform:none}
+.site-search::backdrop,.image-dialog::backdrop{transition:opacity 160ms,display 180ms allow-discrete,overlay 180ms allow-discrete;opacity:0}
+.site-search[open]::backdrop,.image-dialog[open]::backdrop{opacity:1}
+@starting-style{
+ .site-search[open],.image-dialog[open]{opacity:0;transform:translateY(7px) scale(.985)}
+ .site-search[open]::backdrop,.image-dialog[open]::backdrop{opacity:0}
+}
+.notion-toggle[open]>:not(summary),.notion-heading-toggle[open]>:not(summary),.connection-help[open]>:not(summary){animation:content-arrive 160ms var(--motion-ease)}
+@supports (interpolate-size:allow-keywords) and selector(details::details-content){
+ :is(.notion-toggle,.notion-heading-toggle,.connection-help){interpolate-size:allow-keywords}
+ :is(.notion-toggle,.notion-heading-toggle,.connection-help)::details-content{block-size:0;overflow:clip;transition:block-size 180ms var(--motion-ease),content-visibility 180ms allow-discrete}
+ :is(.notion-toggle,.notion-heading-toggle,.connection-help)[open]::details-content{block-size:auto}
+}
+@keyframes content-arrive{from{opacity:.45;transform:translateY(4px)}to{opacity:1;transform:none}}
+@keyframes route-arrive{from{opacity:.65}to{opacity:1}}
+@keyframes icon-arrive{from{opacity:.2;transform:rotate(-18deg) scale(.8)}to{opacity:1;transform:none}}
+@media(prefers-reduced-transparency:reduce),(prefers-contrast:more){
+ :root[data-glass=on] .glass-surface,:root[data-glass=on] :is(.header-inner,.mobile-nav,.language-menu,.site-search){background:var(--paper);-webkit-backdrop-filter:none;backdrop-filter:none;border-color:var(--line)}
+ .site-search::backdrop,.image-dialog::backdrop{background:rgb(20 20 20 / .8);-webkit-backdrop-filter:none;backdrop-filter:none}
+}
+@media(prefers-reduced-motion:reduce){
+ *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+ .route-content,.filter-content{opacity:1;transform:none}
+ :where(button,summary,.nav-links a,.mobile-nav a,.mobile-search-trigger,.language-switcher,.category-tabs button,.archive-categories button,.archive-year-jumps a,.notion-tab-list button,.share-tools button,.search-retry,.connection-tabs button,.translation-notice-close):active{transform:none}
+}
+@media print{.route-content,.filter-content{animation:none;transform:none;opacity:1}.post-card,.featured-card{contain:none}}
