@@ -16,16 +16,17 @@ input:focus-visible,textarea:focus-visible{box-shadow:0 0 0 3px color-mix(in srg
 .translation-notice-slot[data-closing=true]{grid-template-rows:0fr;opacity:0}
 .translation-notice-clip{min-height:0;overflow:hidden}
 .post-card,.featured-card{contain:layout paint}
-.archive-page .archive-item:hover{transform:none}
-.archive-item-arrow,.read-link>svg,.archive-link>svg,.back-link>svg,.next-reading strong>svg{transition:transform var(--motion-normal) var(--motion-ease)}
+:root :is(.post-card,.featured-card,.archive-item){transition:none}
+.archive-item-arrow,.read-link>svg{transition:transform var(--motion-fast) var(--motion-ease)}
+.archive-link>svg,.back-link>svg,.next-reading strong>svg{transition:transform var(--motion-normal) var(--motion-ease)}
+/* Only the small arrow moves. The card's paint and hit area stay stable. */
+@media(hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){
+ :is(.featured-card,.post-card):hover .read-link>svg,.archive-item:hover>.archive-item-arrow{transform:translate(2px,-2px)}
+}
 @media(hover:hover) and (pointer:fine){
- .featured-card:hover .read-link>svg,.post-card:hover .read-link>svg,.archive-item:hover .archive-item-arrow,.next-reading:hover strong>svg{transform:translate(2px,-2px)}
+ .next-reading:hover strong>svg{transform:translate(2px,-2px)}
  .archive-link:hover>svg{transform:translateX(3px)}.back-link:hover>svg{transform:translateX(-3px)}
  .wordmark:hover{opacity:.8}
-}
-@media(hover:none),(pointer:coarse){
- .featured-card:hover,.post-card:hover,.archive-item:hover{transform:none;box-shadow:none}
- .post-card:hover .article-cover img,.featured-card:hover .article-cover img,.archive-page .archive-item:hover .archive-item-cover img{transform:none}
 }
 
 /* A little more transparency, with a smaller and cheaper live blur. */

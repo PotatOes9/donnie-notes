@@ -1,25 +1,23 @@
 .archive-page .archive-year>div{display:grid;gap:0;background:var(--paper);border:1px solid var(--line);border-radius:calc(var(--corner-radius,20px) + 6px);overflow:hidden}
 .archive-page .archive-item{
   --archive-cover-width:58%;--archive-copy-start:32%;
-  --archive-cover-fade:linear-gradient(90deg,#000 0%,#000 10%,rgb(0 0 0 / .85) 23%,rgb(0 0 0 / .45) 40%,rgb(0 0 0 / .14) 57%,rgb(0 0 0 / .035) 78%,transparent 100%);
   position:relative;isolation:isolate;display:flex;align-items:center;gap:20px;min-height:128px;padding:24px 28px;
   overflow:hidden;border:0;border-radius:0;background:var(--paper)
 }
 .archive-page .archive-item+.archive-item{border-top:1px solid var(--line)}
 .archive-page .archive-item:focus-visible{outline-offset:-4px}
 .archive-page .archive-item:has(.archive-item-cover){padding-inline-start:var(--archive-copy-start)}
-.archive-page .archive-item:hover{background:var(--soft)}
 .archive-item-main{position:relative;z-index:1;display:flex;flex-direction:column;align-items:flex-start;gap:7px;flex:1;min-width:0}
 .archive-item-main time{color:var(--muted);font-size:11px;line-height:1.4;letter-spacing:.04em;font-variant-numeric:tabular-nums}
 .archive-page .archive-item-main h3{width:100%;min-width:0;line-height:1.5}
 .archive-page .archive-item>.category-label,.archive-page .archive-item-arrow{position:relative;z-index:1;flex-shrink:0}
 .archive-page .archive-item-arrow{flex-basis:18px}
 .archive-item-cover{
-  position:absolute;inset:0 auto 0 0;z-index:0;display:block;width:var(--archive-cover-width);height:100%;overflow:hidden;pointer-events:none;
-  -webkit-mask-image:var(--archive-cover-fade);mask-image:var(--archive-cover-fade);mask-mode:alpha
+  position:absolute;inset:0 auto 0 0;z-index:0;display:block;width:var(--archive-cover-width);height:100%;overflow:hidden;pointer-events:none
 }
-.archive-item-cover img{display:block;width:100%;height:100%;max-width:none;object-fit:cover;object-position:center;transition:transform .4s var(--ease)}
-.archive-page .archive-item:hover .archive-item-cover img{transform:scale(1.025)}
+/* Keep the fade static when the pointer crosses rows during scrolling. */
+.archive-item-cover::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent 0%,transparent 10%,color-mix(in srgb,var(--paper) 15%,transparent) 23%,color-mix(in srgb,var(--paper) 55%,transparent) 40%,color-mix(in srgb,var(--paper) 86%,transparent) 57%,color-mix(in srgb,var(--paper) 96.5%,transparent) 78%,var(--paper) 100%)}
+.archive-item-cover img{display:block;width:100%;height:100%;max-width:none;object-fit:cover;object-position:center}
 @media(max-width:1100px){.archive-page .archive-item{gap:16px;padding-block:22px;padding-inline-end:24px}}
 @media(max-width:640px){
   .archive-page .archive-year>div{border-radius:calc(var(--corner-radius,20px) + 3px)}
@@ -33,7 +31,6 @@
   .archive-page .archive-item:has(.archive-item-cover)>.archive-item-arrow{display:none}
 }
 @media(max-width:400px){.archive-page .archive-item{padding-inline-end:16px}}
-@media(prefers-reduced-motion:reduce){.archive-item-cover img{transition:none}.archive-page .archive-item:hover .archive-item-cover img{transform:none}}
 
 /* Filter and year controls sit above the preserved, connected annual strips. */
 .archive-heading{display:flex;align-items:center;justify-content:space-between;gap:40px}

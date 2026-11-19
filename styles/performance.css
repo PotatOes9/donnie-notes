@@ -25,12 +25,6 @@ main:focus{outline:none}
 body{text-rendering:auto}
 .post-card{content-visibility:auto;contain-intrinsic-block-size:auto 440px}
 .featured-card{content-visibility:auto;contain-intrinsic-block-size:auto 380px}
-.post-card,.featured-card,.post-card:hover,.featured-card:hover{box-shadow:none}
-/* Same long cover fade, using a static surface overlay instead of alpha masks. */
-.archive-page .archive-item{--archive-surface:var(--paper)}
-.archive-page .archive-item:hover{--archive-surface:var(--soft)}
-.archive-item-cover{-webkit-mask-image:none;mask-image:none}
-.archive-item-cover::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent 0%,transparent 10%,color-mix(in srgb,var(--archive-surface) 15%,transparent) 23%,color-mix(in srgb,var(--archive-surface) 55%,transparent) 40%,color-mix(in srgb,var(--archive-surface) 86%,transparent) 57%,color-mix(in srgb,var(--archive-surface) 96.5%,transparent) 78%,var(--archive-surface) 100%)}
 @media(max-width:640px){.post-card{contain-intrinsic-block-size:auto 500px}}
 @media(prefers-reduced-motion:reduce){.selection-track>.selection-indicator,.journal-screen,.mobile-nav.selection-track [data-selection-active=true]>svg{transition:none;animation:none}.nav-links.selection-track a:active,.mobile-nav.selection-track a:active,.mobile-nav.selection-track .mobile-search-trigger:active{transform:none}}
 @media(prefers-reduced-transparency:reduce),(prefers-contrast:more){:root[data-glass=on] :is(.header-inner,.mobile-nav){background:var(--paper)}}
