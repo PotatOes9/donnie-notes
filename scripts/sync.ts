@@ -77,7 +77,7 @@ async function makeSnapshot():Promise<BuildSnapshot>{
   for(const demo of demoArticles)articleData.push({...demo,cover:demo.cover?await assets.localize(demo.cover,'cover'):null,blocks:await prepareBlocks(demo.blocks||[])});
   const settings=structuredClone(defaultSettings);disableStats(settings);
   for(const key of Object.keys(settings.assets) as AssetName[])settings.assets[key]='';
-  settings.assets.hero=base+'/images/monochrome-study.svg';settings.assets.sidebar=base+'/brand-monogram-rose-v4.svg';settings.assets.favicon=base+'/favicon-rose-dark-v3.svg';
+  settings.assets.hero=base+'/images/monochrome-study.svg';settings.assets.favicon=base+'/favicon-rose-dark-v3.svg';
   return {...common,demo:true,copies:{zh:localeDefaults('zh'),ja:localeDefaults('ja'),en:localeDefaults('en')},settings,articles:articleData.map(({blocks,...article})=>article),articleData,analyticsOrigin:'',contentVersion:'demo'};
  }
  const token=process.env.NOTION_TOKEN,source=process.env.NOTION_ARTICLES_ID,copySource=process.env.NOTION_COPY_SOURCE_ID;

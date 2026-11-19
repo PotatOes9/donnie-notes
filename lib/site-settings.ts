@@ -7,7 +7,7 @@ export const settingFields=[
   ['asset.hero',10,'首页主视觉大图','image','/images/monochrome-study.svg','在“图片”栏上传新图即可替换；建议横图，重要主体放在中间。'],
   ['asset.logo',10,'顶部自定义 Logo','image','','可选。在“图片”栏上传；留空保留现在的 donnie. 文字标志。'],
   ['asset.footerLogo',10,'页脚自定义 Logo','image','','可选。上传后替换页脚文字标志；留空保留文字。'],
-  ['asset.sidebar',10,'首页侧栏头像或标志','image','/brand-monogram-rose-v4.svg','上传你的头像或新标志；建议正方形。现有 d. 图标为透明底，随网站模式切换深灰字或浅灰字。'],
+  ['asset.sidebar',10,'首页侧栏头像或标志','image','','填「默认 d.」使用随主题换色的标志；使用自定义图片时，清空“显示文字”并在“图片”栏上传。'],
   ['asset.about',10,'关于页头像或标志','image','/brand-monogram-rose-v4.svg','上传后只替换关于页的大图标；建议正方形。现有 d. 图标为透明底，随网站模式切换深灰字或浅灰字。'],
   ['asset.favicon',10,'浏览器标签页图标','image','/favicon-rose-dark-v3.svg','建议上传正方形 PNG 或 SVG；保存后刷新，图标网址会自动更新以避开旧缓存。'],
   ['asset.share',10,'分享链接预览图片','image','/images/monochrome-study.svg','建议横图；用于社交软件分享预览。平台可能保留自己的预览缓存。'],
@@ -125,6 +125,8 @@ export function safeSettingLink(value:string):string {
   return publicHttps(value);
 }
 const localImages=new Set(settingFields.filter(x=>x[3]==='image').map(x=>String(x[4])).filter(Boolean));
+// Existing settings can still point at a built-in version, even if a preview image is attached.
+const sidebarMonogramPresets=new Set(['默认 d.','/brand-monogram-rose-v3.svg','/brand-monogram-rose-v4.svg']);
 export function safeSettingImage(value:string){
   // Resolve saved references to the old bundled icon without retaining its painted background.
   if(value==='/brand-monogram-rose-v3.svg')return '/brand-monogram-rose-v4.svg';
@@ -152,7 +154,8 @@ export function mergeSettings(rows:SettingRow[]){
       const name=key.slice(6) as AssetName;
       const file=row?.file;
       const uploaded=file&&/\.(png|jpe?g|webp|gif|avif|svg|ico)$/i.test(file.name)?safeSettingImage(file.url):'';
-      const source=uploaded||safeSettingImage(row?.value.trim()??'')||String(fallback);
+      const input=row?.value.trim()??'';
+      const source=name==='sidebar'&&sidebarMonogramPresets.has(input)?'':uploaded||safeSettingImage(input)||String(fallback);
       sources[name]=source;
       const assetVersion=versionHash(key+':'+(row?.version??'')+':'+source.split('?')[0]);
       assets[name]=source?'/api/site-assets/'+name+'?v='+assetVersion:'';
