@@ -31,7 +31,13 @@ async function verifyFolder(dirname){
    localPdfs++;if((await readFile(path)).subarray(0,5).toString()!=='%PDF-')throw Error('Invalid PDF asset');
   }
   if(item.name.endsWith('.html')){
-   pages++;const html=await readFile(path,'utf8');
+   const html=await readFile(path,'utf8');
+   // Search Console expects a plain-text file at the project root, not a blog page.
+   if(dirname===root&&/^google[0-9a-f]{16}\.html$/.test(item.name)){
+    if(html.replace(/\r?\n$/,'')!==`google-site-verification: ${item.name}`)throw Error('Invalid Search Console verification file');
+    continue;
+   }
+   pages++;
    if(!html.includes('id="donnie-data"')||!/<h1(?:\s[^>]*)?>/.test(html)||/X-Amz-(?:Signature|Credential)=|"(?:browser_hash|encrypted_config)"\s*:/i.test(html))throw Error('An HTML output is missing content or contains temporary credentials');
    const rendered=html.replace(/<script id="donnie-data"[\s\S]*?<\/script>/,'');
    for(const [,ref] of rendered.matchAll(/(?:src|href)="([^"]+)"/g))await verifyRef(ref);
