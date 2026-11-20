@@ -32,13 +32,21 @@
 .search-spinner{animation:discovery-spin .8s linear infinite;color:var(--muted)}
 @keyframes discovery-spin{to{transform:rotate(360deg)}}
 
+/* Keep the small sidebar mark and the large About mark optically identical. */
+.brand-glyph{display:inline-flex;align-items:baseline;font-family:var(--wordmark-font,Georgia,serif);font-weight:700;line-height:.85;letter-spacing:-.065em;color:var(--text);user-select:none}
+.brand-glyph>span{color:var(--brand-accent);letter-spacing:0}
+.profile-monogram{display:flex;align-items:center}
+.profile-monogram>.brand-glyph{font-size:64px}
+.profile-monogram.large>.brand-glyph{font-size:112px}
+@media(max-width:800px){.profile-monogram.large>.brand-glyph{font-size:90px}}
+@media(max-width:640px){.profile-monogram>.brand-glyph{font-size:58px}.profile-monogram.large>.brand-glyph{font-size:82px}}
+
 /* About: an oversized identity study paired with a quiet, editable story. */
 .about-page>.page-heading h1{margin-top:0}
 .about-story{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center;gap:clamp(36px,5vw,76px)}
 .about-story.without-portrait{grid-template-columns:minmax(0,760px);max-width:900px}
 .about-identity{display:grid;place-items:center;aspect-ratio:5/4;min-height:400px;min-width:0;padding:12px 12px 28px}
-.about-monogram{display:inline-flex;align-items:baseline;font-family:var(--wordmark-font,Georgia,serif);font-size:clamp(280px,34vw,470px);font-weight:700;line-height:.85;letter-spacing:-.065em;color:var(--text);user-select:none}
-.about-monogram>span{color:var(--brand-accent);letter-spacing:0}
+.about-monogram{font-size:clamp(280px,34vw,470px)}
 .about-story-copy{min-width:0;padding-block:12px}
 .about-story-copy>.eyebrow{font-size:11px;line-height:1.8;letter-spacing:.08em;margin-bottom:25px}
 .about-story-copy h2{font-size:clamp(30px,3.15vw,42px);font-weight:var(--subheading-weight,800);line-height:1.42;letter-spacing:-.04em;text-wrap:pretty;margin:0 0 32px}

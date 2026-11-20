@@ -6,6 +6,7 @@ import {ArchiveBrowser} from './archive-browser';
 import {JournalScreens} from './journal-navigation';
 import {SiteImage,TopicIcon} from './site-assets';
 import {AboutLicense} from './content-license';
+import {BrandGlyph} from './brand-icon';
 
 
 
@@ -31,7 +32,7 @@ export function JournalPage({initialView,feed,copy,site,locale}:{initialView:Jou
   </section>}<BlogFeed initialFeed={feed} canManage={canManage}/></>;
  const about=<><div className="container about-page"><div className="page-heading"><h1 className="copy-lines">{title.endsWith('.')?<>{title.slice(0,-1)}<span className="green-dot">.</span></>:title}</h1><p className="copy-lines">{copy['about.intro']}</p></div>
     <section className={'about-story'+(flag(site,'show.aboutAvatar')?'':' without-portrait')} aria-labelledby="about-story-title">
-      {flag(site,'show.aboutAvatar')&&<div className="about-identity" role="img" aria-label={copy['brand.alt']}><span className="about-monogram" translate="no" aria-hidden="true">d<span>.</span></span></div>}
+      {flag(site,'show.aboutAvatar')&&<div className="about-identity" role="img" aria-label={copy['brand.alt']}><BrandGlyph className="about-monogram"/></div>}
       <div className="about-story-copy">{copy['about.eyebrow']&&<span className="eyebrow copy-lines">{copy['about.eyebrow']}</span>}<h2 id="about-story-title" className="copy-lines">{copy['about.statementTitle']}</h2><p className="copy-lines">{copy['about.paragraphOne']}</p>{copy['about.paragraphTwo']&&<p className="copy-lines">{copy['about.paragraphTwo']}</p>}</div>
     </section>
     {flag(site,'show.aboutTopics')&&<div className="about-topics">{topics.map(({slot,title,text:description})=><div key={slot}><TopicIcon slot={slot}/><h3 className="copy-lines">{title}</h3><p className="copy-lines">{description}</p></div>)}</div>}
