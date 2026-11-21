@@ -1,5 +1,6 @@
 import {Fragment,createElement,type ReactNode} from 'react';
 import {articleHref,notionColorClass,type RichContext} from '../lib/notion-format.ts';
+import {pageHref} from '../lib/static-path.ts';
 import {MathExpression} from './notion-math.ts';
 
 export function Rich({value=[],context={}}:{value?:any[];context?:RichContext}) {
@@ -15,7 +16,7 @@ export function Rich({value=[],context={}}:{value?:any[];context?:RichContext}) 
     if(a.underline)node=createElement('u',null,node);
     const color=notionColorClass(a.color);
     if(color)node=createElement('span',{className:'notion-rich-color '+color},node);
-    if(href)node=createElement('a',{href,target:href.startsWith('#')||href.startsWith('/')?undefined:'_blank',rel:'noopener noreferrer'},node);
+    if(href)node=createElement('a',{href:pageHref(href),target:href.startsWith('#')||href.startsWith('/')?undefined:'_blank',rel:'noopener noreferrer'},node);
     return createElement(Fragment,{key:index},node);
   }));
 }

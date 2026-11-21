@@ -2,6 +2,7 @@ import {mkdir,readFile,writeFile} from 'node:fs/promises';
 import {join} from 'node:path';
 import sharp from 'sharp';
 import {contentHash,notionStorage,publicDownload} from './public-content.ts';
+import {rideMapSvgDigests} from './ride-map-svgs.ts';
 
 type AssetKind='cover'|'image'|'document'|'media';
 const fileLimit=24*1024*1024,totalLimit=700*1024*1024;
@@ -32,7 +33,9 @@ export function localizeAssets(base:string){
    }
    if(!size)throw Error('Empty uploaded file');
    let content=Buffer.concat(chunks),suffix='.bin';
-   if(kind==='cover'||kind==='image'){
+   if(kind==='image'&&rideMapSvgDigests.has(contentHash(content))){
+    suffix='.svg';
+   }else if(kind==='cover'||kind==='image'){
     const image=sharp(content,{limitInputPixels:120_000_000,animated:true});
     const info=await image.metadata();
     if(!['jpeg','png','webp','gif','svg','heif','tiff'].includes(info.format||''))throw Error('Uploaded image format is unsupported');
